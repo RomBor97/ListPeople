@@ -1,6 +1,7 @@
 import React from "react";
-import Qualitie from "./qualitie";
+import Qualities from "./qualities";
 import BookMark from "./bookmark";
+import PropTypes from "prop-types";
 
 const User = ({
     _id,
@@ -11,14 +12,14 @@ const User = ({
     rate,
     onDelete,
     onToggleBookMark,
-    favorites,
+    favorites
 }) => {
     return (
         <tr key={_id}>
             <td>{name}</td>
             <td>
                 {qualities.map((item) => (
-                    <Qualitie {...item} />
+                    <Qualities {...item} key={item._id} />
                 ))}
             </td>
             <td>{profession.name}</td>
@@ -40,6 +41,17 @@ const User = ({
             </td>
         </tr>
     );
+};
+User.propTypes = {
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    qualities: PropTypes.array,
+    profession: PropTypes.object.isRequired,
+    completedMeetings: PropTypes.number.isRequired,
+    rate: PropTypes.number.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onToggleBookMark: PropTypes.func.isRequired,
+    favorites: PropTypes.bool
 };
 
 export default User;

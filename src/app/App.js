@@ -23,9 +23,9 @@ function App() {
         <div>
             <SearchStatus length={users.length} />
             <Users
+                users={users}
                 onDelete={handleDelete}
                 onToggleBookMark={handleToggleBookMark}
-                users={users}
             />
         </div>
     );

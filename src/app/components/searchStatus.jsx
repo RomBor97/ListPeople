@@ -1,12 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const SearchStatus = ({ length }) => {
     const renderPhrase = (number) => {
-        if (number > 4 && number < 15)
+        if (number > 4 && number < 15) {
             return `${number} человек тусанет с тобой сегодня`;
-        if (number >= 2 && number <= 4)
+        }
+        if (number >= 2 && number <= 4) {
             return `${number} человека тусанут с тобой сегодня`;
-        if (number === 1) return `${number} человек тусанет с тобой сегодня`;
+        }
+        if (number === 1) {
+            return `${number} человек тусанет с тобой сегодня`;
+        }
     };
 
     return (
@@ -19,5 +24,6 @@ const SearchStatus = ({ length }) => {
         </h2>
     );
 };
+SearchStatus.propTypes = { length: PropTypes.number };
 
 export default SearchStatus;

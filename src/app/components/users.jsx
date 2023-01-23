@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { paginate } from "../utils/paginate.js";
+import Pagination from "./pagination";
 import User from "./user";
+import PropTypes from "prop-types";
 
 const Users = ({ users, ...rest }) => {
+    const count = users.length;
+    const pageSize = 4;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const handlePageChange = (pageIndex) => {
+        setCurrentPage(pageIndex);
+    };
+
+    const userCrop = paginate(users, currentPage, pageSize);
+
     return (
         <>
-            {users.length > 0 && (
+            {count > 0 && (
                 <table className="table">
                     <thead>
                         <tr>
@@ -18,14 +31,21 @@ const Users = ({ users, ...rest }) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
-                            <User key={user._id} {...user} {...rest} />
+                        {userCrop.map((user) => (
+                            <User {...user} {...rest} key={user._id} />
                         ))}
                     </tbody>
                 </table>
             )}
+            <Pagination
+                itemsCount={count}
+                pageSize={pageSize}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+            />
         </>
     );
 };
+Users.propTypes = { users: PropTypes.array };
 
 export default Users;
