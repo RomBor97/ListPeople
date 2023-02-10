@@ -26,6 +26,8 @@ const UserPage = () => {
                 <button onClick={handleClickAllUsers}>Все пользователи</button>
             </div>
         );
+    } else {
+        <h1>Loading</h1>;
     }
 };
 UserPage.propTypes = {
