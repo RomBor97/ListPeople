@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import React, { useState, useEffect } from "react";
 import { paginate } from "../utils/paginate.js";
 import Pagination from "./pagination";
@@ -12,6 +13,7 @@ const UsersList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfession] = useState();
     const [selectedProf, setSelectedProf] = useState();
+    const [searchUser, setSearchUser] = useState("");
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const pageSize = 4;
 
@@ -38,9 +40,10 @@ const UsersList = () => {
     }, []);
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchUser]);
 
     const handleProfessionSelect = (item) => {
+        setSearchUser("");
         setSelectedProf(item);
     };
 
@@ -51,10 +54,25 @@ const UsersList = () => {
     const handleSort = (item) => {
         setSortBy(item);
     };
+    const handleSearchUser = ({ target }) => {
+        setSelectedProf(undefined);
+        setSearchUser(target.value);
+    };
+
+    const searchChangeTracking = !searchUser
+        ? undefined
+        : users.filter((user) =>
+              user.name.toLowerCase().includes(searchUser.toLowerCase())
+          );
+
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter((user) => _.isEqual(user.profession, selectedProf))
-            : users;
+        const filteredUsers =
+            searchChangeTracking ||
+            (selectedProf
+                ? users.filter((user) =>
+                      _.isEqual(user.profession, selectedProf)
+                  )
+                : users);
 
         const count = filteredUsers.length;
         const sortedUsers = _.orderBy(
@@ -86,6 +104,13 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        name="searchUser"
+                        onChange={handleSearchUser}
+                        value={searchUser}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={usersCrop}
