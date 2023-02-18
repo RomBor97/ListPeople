@@ -14,7 +14,6 @@ const User = ({
     onToggleBookMark,
     bookmark
 }) => {
-    console.log(_id);
     return (
         <tr key={_id}>
             <td>{name}</td>
